@@ -1,0 +1,2 @@
+# menyatakan
+menyatakan cinta

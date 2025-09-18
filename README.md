@@ -1,2 +1,744 @@
-# menyatakan
-menyatakan cinta
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sebetulnya Aku Suka...</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      touch-action: pan-y;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      color: #333;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 15% 25%, rgba(255, 255, 255, 0.2) 0%, transparent 15%),
+        radial-gradient(circle at 85% 75%, rgba(255, 255, 255, 0.2) 0%, transparent 15%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .slides-container {
+      display: flex;
+      height: 100%;
+      transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+
+    .slide {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 25px 20px;
+      text-align: center;
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .slide-content {
+      max-width: 95%;
+      width: 100%;
+      z-index: 2;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.4rem;
+      color: #e91e63;
+      margin-bottom: 25px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .content {
+      font-size: 1.3rem;
+      line-height: 1.6;
+      margin-bottom: 25px;
+      color: #555;
+      font-weight: 400;
+    }
+
+    .confession-box {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 18px;
+      padding: 25px 20px;
+      margin: 25px 0;
+      box-shadow: 
+        0 8px 25px rgba(0,0,0,0.08),
+        inset 0 0 10px rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(233, 30, 99, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .confession-box::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, #ff9a9e, #fad0c4, #a1c4fd);
+    }
+
+    .confession-text {
+      font-size: 1.2rem;
+      line-height: 1.7;
+      margin-bottom: 15px;
+      text-align: center;
+      color: #444;
+    }
+
+    .heart {
+      color: #ff6b6b;
+      display: inline-block;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+
+    .twist {
+      font-size: 2.2rem;
+      color: #e91e63;
+      font-weight: 700;
+      margin: 25px 0;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+      animation: heartbeat 1.3s infinite;
+      position: relative;
+      display: inline-block;
+    }
+
+    @keyframes heartbeat {
+      0% { transform: scale(1); }
+      5% { transform: scale(1.1); }
+      10% { transform: scale(1); }
+      15% { transform: scale(1.1); }
+      50% { transform: scale(1); }
+      100% { transform: scale(1); }
+    }
+
+    .navigation {
+      position: absolute;
+      bottom: 25px;
+      display: flex;
+      gap: 20px;
+      z-index: 10;
+      background: rgba(255, 255, 255, 0.9);
+      padding: 12px 25px;
+      border-radius: 50px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+      border: 1px solid rgba(233, 30, 99, 0.15);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+    }
+
+    .nav-btn {
+      width: 55px;
+      height: 55px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      border: none;
+      color: white;
+      font-size: 1.4rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 
+        0 4px 12px rgba(0,0,0,0.1),
+        inset 0 2px 2px rgba(255, 255, 255, 0.4);
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-btn:active {
+      transform: scale(0.92);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .indicators {
+      position: absolute;
+      top: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 10;
+    }
+
+    .indicator {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid #e91e63;
+      transition: all 0.3s ease;
+    }
+
+    .indicator.active {
+      background: #e91e63;
+      transform: scale(1.2);
+      box-shadow: 0 0 8px rgba(233, 30, 99, 0.4);
+    }
+
+    .swipe-hint {
+      position: absolute;
+      bottom: 110px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: #e91e63;
+      font-size: 0.9rem;
+      animation: bounce 2.2s infinite;
+      z-index: 10;
+      font-weight: 500;
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+      40% { transform: translateY(-12px); }
+      60% { transform: translateY(-6px); }
+    }
+
+    .swipe-icon {
+      font-size: 2.2rem;
+      margin-bottom: 6px;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+
+    .footer-text {
+      position: absolute;
+      bottom: 15px;
+      font-size: 0.8rem;
+      color: #777;
+      font-style: italic;
+      text-align: center;
+      width: 100%;
+      z-index: 10;
+    }
+
+    .heart-bg {
+      position: absolute;
+      font-size: 2rem;
+      color: rgba(255, 107, 107, 0.12);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .food-img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 18px;
+      border: 5px solid white;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      margin: 20px 0;
+    }
+
+    /* Canvas untuk animasi hati */
+    #heartCanvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Slide final confession */
+    .final-confession {
+      font-size: 2.5rem;
+      color: #e91e63;
+      font-weight: 800;
+      margin: 30px 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      animation: confettiDrop 3s infinite;
+    }
+
+    @keyframes confettiDrop {
+      0% { transform: translateY(-100px); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+
+    /* Responsive untuk berbagai ukuran layar mobile */
+    @media (max-width: 400px) {
+      h1 {
+        font-size: 2rem;
+      }
+      
+      .content {
+        font-size: 1.15rem;
+      }
+      
+      .confession-text {
+        font-size: 1.05rem;
+      }
+      
+      .twist {
+        font-size: 1.8rem;
+      }
+      
+      .food-img {
+        width: 150px;
+        height: 150px;
+      }
+      
+      .navigation {
+        gap: 15px;
+        padding: 10px 20px;
+        bottom: 20px;
+      }
+      
+      .nav-btn {
+        width: 50px;
+        height: 50px;
+        font-size: 1.2rem;
+      }
+      
+      .swipe-hint {
+        bottom: 95px;
+        font-size: 0.8rem;
+      }
+      
+      .swipe-icon {
+        font-size: 1.8rem;
+      }
+      
+      .final-confession {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-height: 550px) {
+      .slide {
+        padding: 15px 15px;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+        margin-bottom: 15px;
+      }
+      
+      .content {
+        font-size: 1.1rem;
+        margin-bottom: 15px;
+      }
+      
+      .confession-text {
+        font-size: 1rem;
+        padding: 12px;
+      }
+      
+      .confession-box {
+        padding: 18px 15px;
+        margin: 15px 0;
+      }
+      
+      .twist {
+        font-size: 1.7rem;
+        margin: 15px 0;
+      }
+      
+      .final-confession {
+        font-size: 1.8rem;
+        margin: 20px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <canvas id="heartCanvas"></canvas>
+    
+    <div class="slides-container">
+      <!-- Slide 1: Pembuka -->
+      <div class="slide">
+        <div class="slide-content">
+          <h1>Sebetulnya aku...</h1>
+          <div class="content">
+            <p>Ada sesuatu yang sudah lama aku pendam</p>
+            <p style="font-size: 3rem; margin: 20px 0;">❤️</p>
+            <p>Dan hari ini aku mau ngomongin...</p>
+          </div>
+        </div>
+        <div class="swipe-hint">
+          <i class="fas fa-arrow-right swipe-icon"></i>
+          <span>Geser ke kanan</span>
+        </div>
+        <div class="indicators">
+          <div class="indicator active"></div>
+          <div class="indicator"></div>
+          <div class="indicator"></div>
+          <div class="indicator"></div>
+          <div class="indicator"></div>
+        </div>
+      </div>
+
+      <!-- Slide 2: Menyatakan Cinta -->
+      <div class="slide">
+        <div class="slide-content">
+          <h1>Suka...</h1>
+          <div class="confession-box">
+            <p class="confession-text">Aku sering mikirin kamu tiap hari...</p>
+            <p class="confession-text">kamu bikin hariku penuh energi <span class="heart">❤️</span></p>
+            <p class="confession-text">Aku selalu menghampirimu di sore hari</p>
+            <p class="confession-text" style="margin-top: 20px; font-style: italic; color: #e91e63; font-weight: 500;">
+              "Aku nggak bisa bohong lagi"
+            </p>
+          </div>
+        </div>
+        <div class="swipe-hint">
+          <i class="fas fa-arrow-right swipe-icon"></i>
+          <span>Geser ke kanan</span>
+        </div>
+        <div class="indicators">
+          <div class="indicator"></div>
+          <div class="indicator active"></div>
+          <div class="indicator"></div>
+          <div class="indicator"></div>
+          <div class="indicator"></div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Hampir Nyatakan -->
+      <div class="slide">
+        <div class="slide-content">
+          <h1>Aku mau ngomong...</h1>
+          <div class="content">
+            <p>Tapi aku takut kamu nggak suka</p>
+            <p style="font-size: 3rem; margin: 20px 0;">😰</p>
+            <p>Aku udah siapin kata-kata yang paling indah...</p>
+          </div>
+        </div>
+        <div class="swipe-hint">
+          <i class="fas fa-arrow-right swipe-icon"></i>
+          <span>Geser ke kanan</span>
+        </div>
+        <div class="indicators">
+          <div class="indicator"></div>
+          <div class="indicator"></div>
+          <div class="indicator active"></div>
+          <div class="indicator"></div>
+          <div class="indicator"></div>
+        </div>
+      </div>
+
+      <!-- Slide 4: Twist Mie Ayam -->
+      <div class="slide">
+        <div class="slide-content">
+          <h1>Emmm...</h1>
+          <div class="twist">sebenarnya aku suka mie ayam</div>
+          <img src="https://images.unsplash.com/photo-1614752016432-7c44f07b03c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80" alt="Mie Ayam" class="food-img">
+          <div class="content">
+            <p>aku suka banget sama mie ayam</p>
+            <p>apakah suka mie ayam juga?</p>
+            <p style="font-size: 3rem; margin: 20px 0;">❤️</p>
+          </div>
+        </div>
+        <div class="indicators">
+          <div class="indicator"></div>
+          <div class="indicator"></div>
+          <div class="indicator"></div>
+          <div class="indicator active"></div>
+          <div class="indicator"></div>
+        </div>
+        <p class="footer-text">mie ayam is the best</p>
+      </div>
+
+      <!-- Slide 5: Tapi Aku Lebih Suka Kamu -->
+      <div class="slide">
+        <div class="slide-content">
+          <h1>Tapi...</h1>
+          <div class="final-confession">Aku lebih suka kamu ❤️</div>
+          <div class="content">
+            <p>Meskipun aku suka mie ayam...</p>
+            <p style="font-size: 3rem; margin: 20px 0;">💕</p>
+            <p>Kamu yang bikin hari-hariku bermakna</p>
+          </div>
+        </div>
+        <div class="indicators">
+          <div class="indicator"></div>
+          <div class="indicator"></div>
+          <div class="indicator"></div>
+          <div class="indicator"></div>
+          <div class="indicator active"></div>
+        </div>
+        <p class="footer-text">Dengan penuh cinta ❤️</p>
+      </div>
+    </div>
+
+    <div class="navigation">
+      <div class="nav-btn" id="prevBtn">
+        <i class="fas fa-arrow-left"></i>
+      </div>
+      <div class="nav-btn" id="nextBtn">
+        <i class="fas fa-arrow-right"></i>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const slidesContainer = document.querySelector('.slides-container');
+      const slides = document.querySelectorAll('.slide');
+      const indicators = document.querySelectorAll('.indicator');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      
+      let currentIndex = 0;
+      let startX = 0;
+      let startY = 0;
+      let distX = 0;
+      let distY = 0;
+      let startTime = 0;
+      let elapsedTime = 0;
+      const threshold = 120; // minimum geser (px)
+      const restraint = 80; // maximum geser vertikal (px)
+      const allowedTime = 250; // maximum waktu (ms)
+      
+      // Buat latar belakang hati
+      function createHeartBackground() {
+        const container = document.querySelector('.container');
+        for (let i = 0; i < 12; i++) {
+          const heart = document.createElement('div');
+          heart.classList.add('heart-bg');
+          heart.innerHTML = '❤';
+          heart.style.left = `${Math.random() * 100}%`;
+          heart.style.top = `${Math.random() * 100}%`;
+          heart.style.fontSize = `${Math.random() * 1.5 + 1}rem`;
+          heart.style.animation = `pulse ${Math.random() * 3 + 2}s infinite`;
+          heart.style.animationDelay = `${Math.random() * 2}s`;
+          container.appendChild(heart);
+        }
+      }
+      
+      // Update indikator
+      function updateIndicators() {
+        indicators.forEach((indicator, index) => {
+          if (index === currentIndex) {
+            indicator.classList.add('active');
+          } else {
+            indicator.classList.remove('active');
+          }
+        });
+      }
+      
+      // Pindah ke slide tertentu
+      function goToSlide(index) {
+        if (index >= 0 && index < slides.length) {
+          currentIndex = index;
+          slidesContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+          updateIndicators();
+        }
+      }
+      
+      // Event listener untuk tombol navigasi
+      prevBtn.addEventListener('click', () => {
+        goToSlide(currentIndex - 1);
+      });
+      
+      nextBtn.addEventListener('click', () => {
+        goToSlide(currentIndex + 1);
+      });
+      
+      // Touch events untuk geser
+      slidesContainer.addEventListener('touchstart', function(e) {
+        const touch = e.touches[0];
+        startX = touch.clientX;
+        startY = touch.clientY;
+        startTime = new Date().getTime();
+        e.preventDefault();
+      }, { passive: false });
+      
+      slidesContainer.addEventListener('touchmove', function(e) {
+        e.preventDefault();
+      }, { passive: false });
+      
+      slidesContainer.addEventListener('touchend', function(e) {
+        const touch = e.changedTouches[0];
+        distX = touch.clientX - startX;
+        distY = touch.clientY - startY;
+        elapsedTime = new Date().getTime() - startTime;
+        
+        if (elapsedTime <= allowedTime) {
+          if (Math.abs(distX) >= threshold && Math.abs(distY) <= restraint) {
+            if (distX > 0) {
+              // Geser ke kanan (prev)
+              goToSlide(currentIndex - 1);
+            } else {
+              // Geser ke kiri (next)
+              goToSlide(currentIndex + 1);
+            }
+          }
+        }
+        e.preventDefault();
+      }, { passive: false });
+      
+      // Mouse events untuk desktop
+      let isMouseDown = false;
+      let mouseStartX = 0;
+      
+      slidesContainer.addEventListener('mousedown', function(e) {
+        isMouseDown = true;
+        mouseStartX = e.clientX;
+        e.preventDefault();
+      });
+      
+      slidesContainer.addEventListener('mousemove', function(e) {
+        if (!isMouseDown) return;
+        e.preventDefault();
+      });
+      
+      slidesContainer.addEventListener('mouseup', function(e) {
+        if (!isMouseDown) return;
+        isMouseDown = false;
+        
+        const dist = e.clientX - mouseStartX;
+        
+        if (Math.abs(dist) >= threshold) {
+          if (dist > 0) {
+            // Geser ke kanan (prev)
+            goToSlide(currentIndex - 1);
+          } else {
+            // Geser ke kiri (next)
+            goToSlide(currentIndex + 1);
+          }
+        }
+        e.preventDefault();
+      });
+      
+      slidesContainer.addEventListener('mouseleave', function() {
+        isMouseDown = false;
+      });
+      
+      // Inisialisasi
+      createHeartBackground();
+      updateIndicators();
+      
+      // Animasi hati dengan Canvas (background)
+      const canvas = document.getElementById('heartCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Set ukuran canvas
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      
+      window.addEventListener('resize', resizeCanvas);
+      resizeCanvas();
+      
+      // Fungsi untuk menggambar hati
+      function drawHeart(x, y, size, color) {
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.bezierCurveTo(
+          x, y - size * 0.3,
+          x - size * 0.5, y - size * 0.7,
+          x, y - size
+        );
+        ctx.bezierCurveTo(
+          x + size * 0.5, y - size * 0.7,
+          x + size * 0.5, y - size * 0.3,
+          x, y
+        );
+        ctx.fillStyle = color;
+        ctx.fill();
+      }
+      
+      // Partikel hati
+      const hearts = [];
+      const colors = ['#ff6b6b', '#ff8e8e', '#ff5252', '#e91e63', '#f48fb1'];
+      
+      class HeartParticle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height - canvas.height;
+          this.size = Math.random() * 15 + 5;
+          this.speed = Math.random() * 3 + 1;
+          this.color = colors[Math.floor(Math.random() * colors.length)];
+          this.angle = Math.random() * 360;
+          this.spin = Math.random() * 0.2 - 0.1;
+        }
+        
+        update() {
+          this.y += this.speed;
+          this.angle += this.spin;
+          
+          if (this.y > canvas.height) {
+            this.y = -20;
+            this.x = Math.random() * canvas.width;
+          }
+        }
+        
+        draw() {
+          ctx.save();
+          ctx.translate(this.x, this.y);
+          ctx.rotate(this.angle);
+          drawHeart(0, 0, this.size, this.color);
+          ctx.restore();
+        }
+      }
+      
+      // Buat partikel hati
+      for (let i = 0; i < 30; i++) {
+        hearts.push(new HeartParticle());
+      }
+      
+      // Animasi loop
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        hearts.forEach(heart => {
+          heart.update();
+          heart.draw();
+        });
+        
+        requestAnimationFrame(animate);
+      }
+      
+      animate();
+    });
+  </script>
+</body>
+</html>
